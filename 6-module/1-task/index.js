@@ -14,72 +14,46 @@
  */
 export default class UserTable {
   constructor(rows) {
-    this.elem = createTable(rows);
-  }
-}
-
-function createTable(rows) {
-  let div = document.createElement('div');
-  let myScript = document.querySelector('[type="module"]');
-  let table = document.createElement('table');
-  let thead = document.createElement('thead');
-  let tbody = document.createElement('tbody');
-  let tr = document.createElement('tr');
-  let array = ['Имя', 'Возраст', 'Зарплата', 'Город'];
-
-  myScript.before(div);
-  div.prepend(table);
-  table.prepend(thead);
-  table.append(tbody);
-  thead.prepend(tr);
-
-  for (let k = 0; k < 5; k++) {
-    let th = document.createElement('th');
-    tr.append(th);
-    th.textContent = array[k];
+    this.rows = rows;
+    this.div = document.createElement('div');
+    this.div.innerHTML = this.template();
+    this.myScript = document.querySelector('[type="module"]');
+    this.myScript.before(this.div);
+    this.elem = this.myScript;
+    this.newDiv = this.myScript.previousElementSibling;
+    this.buttons = this.newDiv.getElementsByTagName('button');
+    this.closeForClick();
   }
 
-  for (let elem of rows) {
-    let tr = document.createElement('tr');
-    tbody.prepend(tr);
-    tr.classList.add('del');
-    for (let subElem in elem) {
-      let td = document.createElement('td');
-      tr.prepend(td);
+  template() {
+    return `
+    <table>
+      <thead>
+        <tr>
+          <th>Имя</th>
+          <th>Возраст</th>
+          <th>Зарплата</th>
+          <th>Город</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        ${this.rows.map(row => {
+    return `<tr>
+                <td>${row.name}</td>
+                <td>${row.age}</td>
+                <td>${row.salary}</td>
+                <td>${row.city}</td>
+                <td><button>X</button></td>
+            </tr>`;})
+      .join('')}
+      </tbody>
+    </table>`;
+  }
+
+  closeForClick () {
+    for (let buttonElement of this.buttons) {
+      buttonElement.addEventListener('click', () => buttonElement.closest('tr').remove());
     }
-    let td2 = document.createElement('td');
-    tr.append(td2);
   }
-
-  let newDiv = myScript.previousElementSibling;
-  newDiv.classList.add('myDiv');
-  let tds = newDiv.querySelectorAll('td');
-  let names = rows.map(item => item.name);
-  let ages = rows.map(item => item.age);
-  let salaries = rows.map(item => item.salary);
-  let cities = rows.map(item => item.city);
-
-  let newArr = [];
-
-  for (let i = 0; i < rows.length; i++) {
-    newArr.push(names[i]);
-    newArr.push(ages[i]);
-    newArr.push(salaries[i]);
-    newArr.push(cities[i]);
-    newArr.push(`<button>X</button>`);
-  }
-
-  for (let j = 0; j < tds.length; j++) {
-    tds[j].innerHTML = newArr[j];
-  }
-
-  let buttons = newDiv.getElementsByTagName("button");
-
-  for (let buttonElement of buttons) {
-    buttonElement.addEventListener('click', () => buttonElement.closest('.del').remove());
-  }
-
-
 }
-
-
