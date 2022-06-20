@@ -19,7 +19,7 @@ export default class UserTable {
     this.div.innerHTML = this.template();
     this.myScript = document.querySelector('[type="module"]');
     this.myScript.before(this.div);
-    this.elem = this.myScript;
+    this.elem = this.div;
     this.newDiv = this.myScript.previousElementSibling;
     this.buttons = this.newDiv.getElementsByTagName('button');
     this.closeForClick();
