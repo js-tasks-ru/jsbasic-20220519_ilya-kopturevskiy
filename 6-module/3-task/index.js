@@ -3,6 +3,7 @@ import createElement from '../../assets/lib/create-element.js';
 export default class Carousel {
   constructor(slides) {
     this.slides = slides;
+    this.slidesIdsArray = this.slidesIds();
     this.elem = this.container();
     this.names = this.elem.querySelectorAll('.carousel__title');
     this.prices = this.elem.querySelectorAll('.carousel__price');
@@ -18,11 +19,27 @@ export default class Carousel {
     this.#clickButtonLeft();
     this.#clickButtonRight();
     this.#setDataAttribute();
+
+  }
+
+  slidesIds () {
+    return this.slides.map(slide => slide.id);
   }
 
   #setDataAttribute () {
     for (let j = 0; j < this.addToBasketButtons.length; j++) {
-      this.addToBasketButtons[j].setAttribute('data-id', this.slides[j].id);
+      this.addToBasketButtons[j].dataset.id = this.slidesIdsArray[j];
+    }
+  }
+
+  newCustomEvent (event) {
+    let target = event.target;
+    if (target.closest('.carousel__button')) {
+      const newEvent = new CustomEvent('product-add', {
+        detail: target.closest('.carousel__button').dataset.id,
+        bubbles: true
+      });
+      target.dispatchEvent(newEvent);
     }
   }
 
@@ -129,18 +146,6 @@ export default class Carousel {
      } else {
        this.buttonMoveLeft.style.display = '';
        this.buttonMoveRight.style.display = '';
-     }
-   }
-
-
-   newCustomEvent (event) {
-     let target = event.target;
-     if (target.closest('.carousel__button')) {
-       const newEvent = new CustomEvent('product-add', {
-         detail: event.target.closest('.carousel__button').dataset.id,
-         bubbles: true
-       });
-       target.dispatchEvent(newEvent);
      }
    }
 }
