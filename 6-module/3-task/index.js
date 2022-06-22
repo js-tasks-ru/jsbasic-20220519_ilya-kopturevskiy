@@ -5,9 +5,6 @@ export default class Carousel {
     this.slides = slides;
     this.slidesIdsArray = this.slidesIds();
     this.elem = this.container();
-    this.names = this.elem.querySelectorAll('.carousel__title');
-    this.prices = this.elem.querySelectorAll('.carousel__price');
-    this.images = this.elem.querySelectorAll('.carousel__img');
     this.buttonMoveRight = this.elem.querySelector('.carousel__arrow_right');
     this.buttonMoveLeft = this.elem.querySelector('.carousel__arrow_left');
     this.carouselInner = this.elem.querySelector('.carousel__inner');
@@ -15,7 +12,6 @@ export default class Carousel {
     this.elem.addEventListener('click', this.newCustomEvent);
     this.addToBasketButtons = this.elem.querySelectorAll('.carousel__button');
     this.buttonMoveLeft.style.display = 'none';
-    this.#addSlidesToContainer();
     this.#clickButtonLeft();
     this.#clickButtonRight();
     this.#setDataAttribute();
@@ -59,22 +55,13 @@ export default class Carousel {
   }
 
 
-   #addSlidesToContainer () {
-    for (let i = 0; i < this.slides.length; i++) {
-      this.names[i].textContent = this.slides[i].name;
-      this.prices[i].textContent = `€${this.slides[i].price.toFixed(2)}`;
-      this.images[i].src = `/assets/images/carousel/${this.slides[i].image}`;
-    }
+  get offsetWidth () {
+    return this.carouselInner.offsetWidth;
   }
 
 
-   get offsetWidth () {
-     return this.carouselInner.offsetWidth;
-   }
-
-
-   container () {
-     return createElement(`
+  container () {
+    return createElement(`
     <!--Корневой элемент карусели-->
   <div class="carousel">
     <!--Кнопки переключения-->
@@ -100,17 +87,17 @@ export default class Carousel {
   })}
     </div>
   </div>`);
-   }
+  }
 
 
    #deleteButtonsIf() {
-     if (this.slidePosition === -(this.offsetWidth * (this.carouselInner.children.length - 1))) {
-       this.buttonMoveRight.style.display = 'none';
-     } else if (this.slidePosition === 0) {
-       this.buttonMoveLeft.style.display = 'none';
-     } else {
-       this.buttonMoveLeft.style.display = '';
-       this.buttonMoveRight.style.display = '';
-     }
-   }
+    if (this.slidePosition === -(this.offsetWidth * (this.carouselInner.children.length - 1))) {
+      this.buttonMoveRight.style.display = 'none';
+    } else if (this.slidePosition === 0) {
+      this.buttonMoveLeft.style.display = 'none';
+    } else {
+      this.buttonMoveLeft.style.display = '';
+      this.buttonMoveRight.style.display = '';
+    }
+  }
 }
