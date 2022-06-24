@@ -84,7 +84,7 @@ export default class Carousel {
           </button>
         </div>
       </div>`;
-  })}
+  }).join('')}
     </div>
   </div>`);
   }
