@@ -66,8 +66,8 @@ export default class RibbonMenu {
   }
 
   newCustomEvent (event) {
+    event.preventDefault();
     this.target = event.target;
-    this.target.onclick = this.target.preventDefault;
 
     if (this.target.closest('.ribbon__item')) {
 
