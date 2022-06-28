@@ -7,7 +7,7 @@ export default class StepSlider {
     this.value = value;
     this.howManySectors = this.steps - 1;
     this.divWithClassSliderSteps = this.elem.querySelector('.slider__steps');
-    this.divWithClassSlider = this.elem.querySelector('.slider');
+    this.divWithClassSlider = this.elem;
     this.divWithClassSliderValue = this.elem.querySelector('.slider__value');
     this.addSpans();
     this.sliderOnClick();
@@ -45,7 +45,7 @@ export default class StepSlider {
   }
 
   startPosition () {
-    this.divWithClassSliderValue.innerHTML = this.value;
+    this.divWithClassSliderValue.innerHTML = String(this.value);
     this.leftPercent = this.value / this.howManySectors * 100;
     this.divWithClassSliderTumb.style.left = `${this.leftPercent}%`;
     this.divWithClassSliderProgress.style.width = `${this.leftPercent}%`;
@@ -57,7 +57,7 @@ export default class StepSlider {
       this.difference = event.clientX - this.divWithClassSlider.getBoundingClientRect().left;
       this.oneSector = this.difference / this.divWithClassSlider.offsetWidth;
       this.whereClickAdd = Math.round(this.oneSector * this.howManySectors);
-      this.divWithClassSliderValue.innerHTML = this.whereClickAdd;
+      this.divWithClassSliderValue.innerHTML = String(this.whereClickAdd);
       for (let span of this.spans) {
         if (span.classList.contains('slider__step-active')) {
           span.classList.remove('slider__step-active');
