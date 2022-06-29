@@ -7,7 +7,6 @@ export default class StepSlider {
     this.value = value;
     this.howManySectors = this.steps - 1;
     this.divWithClassSliderSteps = this.elem.querySelector('.slider__steps');
-    this.divWithClassSlider = this.elem;
     this.divWithClassSliderValue = this.elem.querySelector('.slider__value');
     this.addSpans();
     this.sliderOnClick();
@@ -53,9 +52,9 @@ export default class StepSlider {
   }
 
   sliderOnClick () {
-    this.divWithClassSlider.addEventListener('click', (event) => {
-      this.difference = event.clientX - this.divWithClassSlider.getBoundingClientRect().left;
-      this.oneSector = this.difference / this.divWithClassSlider.offsetWidth;
+    this.elem.addEventListener('click', (event) => {
+      this.difference = event.clientX - this.elem.getBoundingClientRect().left;
+      this.oneSector = this.difference / this.elem.offsetWidth;
       this.whereClickAdd = Math.round(this.oneSector * this.howManySectors);
       this.divWithClassSliderValue.innerHTML = String(this.whereClickAdd);
       for (let span of this.spans) {
@@ -72,7 +71,7 @@ export default class StepSlider {
         detail: this.whereClickAdd,
         bubbles: true
       });
-      this.divWithClassSlider.dispatchEvent(newEvent);
+      this.elem.dispatchEvent(newEvent);
     });
   }
 }
