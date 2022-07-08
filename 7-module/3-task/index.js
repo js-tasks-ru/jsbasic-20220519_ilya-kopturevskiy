@@ -18,9 +18,6 @@ export default class StepSlider {
     let container = document.createElement('div');
     container.classList.add('slider');
     container.innerHTML = `
-      <!--Корневой элемент слайдера-->
-  <div class="slider">
-
     <!--Ползунок слайдера с активным значением-->
     <div class="slider__thumb">
       <span class="slider__value"></span>
@@ -31,8 +28,7 @@ export default class StepSlider {
 
     <!--Шаги слайдера-->
     <div class="slider__steps">
-    </div>
-  </div>`;
+    </div>`;
     return container;
   }
 
